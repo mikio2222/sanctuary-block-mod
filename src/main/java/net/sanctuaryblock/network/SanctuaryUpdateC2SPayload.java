@@ -22,11 +22,11 @@ public record SanctuaryUpdateC2SPayload(BlockPos pos, boolean active, boolean ex
 
 	public static final PacketCodec<RegistryByteBuf, SanctuaryUpdateC2SPayload> CODEC = PacketCodec.tuple(
 			BlockPos.PACKET_CODEC, SanctuaryUpdateC2SPayload::pos,
-			PacketCodecs.BOOLEAN, SanctuaryUpdateC2SPayload::active,
-			PacketCodecs.BOOLEAN, SanctuaryUpdateC2SPayload::explosionProtection,
-			PacketCodecs.BOOLEAN, SanctuaryUpdateC2SPayload::blockPlacement,
-			PacketCodecs.BOOLEAN, SanctuaryUpdateC2SPayload::blockBreaking,
-			PacketCodecs.BOOLEAN, SanctuaryUpdateC2SPayload::mobSpawning,
+			PacketCodecs.BOOL, SanctuaryUpdateC2SPayload::active,
+			PacketCodecs.BOOL, SanctuaryUpdateC2SPayload::explosionProtection,
+			PacketCodecs.BOOL, SanctuaryUpdateC2SPayload::blockPlacement,
+			PacketCodecs.BOOL, SanctuaryUpdateC2SPayload::blockBreaking,
+			PacketCodecs.BOOL, SanctuaryUpdateC2SPayload::mobSpawning,
 			PacketCodecs.VAR_INT, SanctuaryUpdateC2SPayload::horizontalRadius,
 			PacketCodecs.VAR_INT, SanctuaryUpdateC2SPayload::verticalRadius,
 			SanctuaryUpdateC2SPayload::new
