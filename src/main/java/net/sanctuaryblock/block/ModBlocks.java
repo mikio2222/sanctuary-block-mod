@@ -8,38 +8,31 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 
 public class ModBlocks {
 
-	public static final Block SANCTUARY_BLOCK = register(
+	private static final String MOD_ID = "sanctuaryblock";
+
+	public static final Block SANCTUARY_BLOCK = registerBlock(
 			"sanctuary_block",
-			settings -> new SanctuaryBlock(settings.mapColor(MapColor.PALE_PURPLE).strength(3.0f, 6.0f)
-					.sounds(net.minecraft.sound.BlockSoundGroup.AMETHYST)
+			new SanctuaryBlock(AbstractBlock.Settings.create()
+					.mapColor(MapColor.PALE_PURPLE)
+					.strength(3.0f, 6.0f)
+					.sounds(net.minecraft.sound.BlockSoundGroup.AMETHYST_BLOCK)
 					.nonOpaque()
-					.pistonBehavior(net.minecraft.block.piston.PistonBehavior.BLOCK)),
-			true
+					.pistonBehavior(net.minecraft.block.piston.PistonBehavior.BLOCK))
 	);
 
-	private static Block register(String path, java.util.function.Function<AbstractBlock.Settings, Block> factory, boolean withItem) {
-		RegistryKey<Block> blockKey = keyOf(path);
-		Block block = factory.apply(AbstractBlock.Settings.create().registryKey(blockKey));
-		Registry.register(Registries.BLOCK, blockKey, block);
-
-		if (withItem) {
-			RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of("sanctuaryblock", path));
-			BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(itemKey).useBlockPrefixedTranslationKey());
-			Registry.register(Registries.ITEM, itemKey, blockItem);
-		}
-
-		return block;
+	private static Block registerBlock(String name, Block block) {
+		registerBlockItem(name, block);
+		return Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, name), block);
 	}
 
-	private static RegistryKey<Block> keyOf(String path) {
-		return RegistryKey.of(RegistryKeys.BLOCK, Identifier.of("sanctuaryblock", path));
+	private static Item registerBlockItem(String name, Block block) {
+		return Registry.register(Registries.ITEM, Identifier.of(MOD_ID, name),
+				new BlockItem(block, new Item.Settings().useBlockPrefixedTranslationKey()));
 	}
 
 	public static void initialize() {
