@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.sanctuaryblock.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "SanctuaryBlockBreakMixin",
+    "SanctuaryExplosionMixin",
+    "SanctuaryItemPlaceMixin",
+    "SanctuaryMobSpawnMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "sanctuaryblock",
+  "version": "${version}",
+  "name": "Sanctuary Block",
+  "description": "Adds a standalone Sanctuary Block: a configurable block that can protect an area from explosions, block placement, block breaking and mob spawns. Extracted and reimplemented as a lightweight, standalone version of the Sanctuary Block feature from 'Cobblemon: Legendary Monuments' by JorgaoMC (used under MPL 2.0). Original textures/model by SpookyThunder/AstraSilverhorn.",
+  "authors": [
+    "You"
+  ],
+  "contact": {},
+  "license": "MPL-2.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.sanctuaryblock.SanctuaryBlockMod"
+    ],
+    "client": [
+      "net.sanctuaryblock.SanctuaryBlockModClient"
+    ]
+  },
+  "mixins": [
+    "sanctuaryblock.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.9",
+    "fabric-api": "*",
+    "minecraft": "~1.21.1",
+    "java": ">=21"
+  }
+}
