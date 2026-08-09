@@ -69,11 +69,6 @@ public class SanctuaryBlock extends Block {
 	}
 
 	@Override
-	public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
-		return true;
-	}
-
-	@Override
 	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		// The sanctuary block has no collision box: players and mobs simply walk through it.
 		return VoxelShapes.empty();
@@ -101,7 +96,7 @@ public class SanctuaryBlock extends Block {
 	}
 
 	@Override
-	protected void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
 		BlockPos upperPos = pos.up();
 		world.setBlockState(upperPos, state.with(HALF, DoubleBlockHalf.UPPER), Block.NOTIFY_ALL);
 
@@ -133,7 +128,7 @@ public class SanctuaryBlock extends Block {
 	}
 
 	@Override
-	protected BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
 		DoubleBlockHalf half = state.get(HALF);
 		BlockPos otherHalfPos = half == DoubleBlockHalf.LOWER ? pos.up() : pos.down();
 		BlockState otherHalfState = world.getBlockState(otherHalfPos);
