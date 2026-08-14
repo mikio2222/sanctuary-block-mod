@@ -70,8 +70,8 @@ public class SanctuaryBlock extends Block implements BlockEntityProvider {
 	}
 
 	@Override
-	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		// The sanctuary block has no collision box: players and mobs simply walk through it.
+	protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		// No collision box: players and mobs simply walk through it.
 		return VoxelShapes.empty();
 	}
 
