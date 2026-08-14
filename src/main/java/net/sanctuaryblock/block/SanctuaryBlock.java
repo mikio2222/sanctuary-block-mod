@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityProvider;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -44,7 +45,7 @@ import java.util.Map;
  * placement, block breaking and mob spawning. Toggled on/off with a simple right click
  * in survival, or configured through a dedicated screen while in creative mode.
  */
-public class SanctuaryBlock extends Block {
+public class SanctuaryBlock extends Block implements BlockEntityProvider {
 
 	public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
 	public static final EnumProperty<DoubleBlockHalf> HALF = Properties.DOUBLE_BLOCK_HALF;
@@ -75,7 +76,7 @@ public class SanctuaryBlock extends Block {
 	}
 
 	@Override
-	protected BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		if (state.get(HALF) == DoubleBlockHalf.LOWER) {
 			return new SanctuaryBlockEntity(pos, state);
 		}
