@@ -10,9 +10,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.List;
 
 @Mixin(Explosion.class)
 public class SanctuaryExplosionMixin {
@@ -33,15 +30,18 @@ public class SanctuaryExplosionMixin {
 	@Final
 	private double z;
 
-	@Inject(method = "getBlocksToDestroy", at = @At("RETURN"), cancellable = true)
-	private void sanctuaryblock$onGetBlocksToDestroy(CallbackInfoReturnable<List<BlockPos>> cir) {
-		List<BlockPos> affected = cir.getReturnValue();
-		affected.removeIf(pos -> SanctuaryBlock.isExplosionBlocked(this.world, pos));
-		cir.setReturnValue(affected);
+	// After the explosion has figured out which blocks it would destroy, strip out
+	// any block inside a protected Sanctuary zone.
+	@Inject(method = "collectBlocksAndDamageEntities", at = @At("RETURN"))
+	private void sanctuaryblock$onCollectBlocksAndDamageEntities(CallbackInfo ci) {
+		Explosion self = (Explosion) (Object) this;
+		self.getAffectedBlocks().removeIf(pos -> SanctuaryBlock.isExplosionBlocked(this.world, pos));
 	}
 
-	@Inject(method = "collectBlocksAndDamageEntities", at = @At("HEAD"), cancellable = true)
-	private void sanctuaryblock$onCollectBlocksAndDamageEntities(CallbackInfo ci) {
+	// If the explosion itself originates inside a protected Sanctuary zone, cancel it entirely
+	// (no block damage, no entity damage, no particles).
+	@Inject(method = "affectWorld", at = @At("HEAD"), cancellable = true)
+	private void sanctuaryblock$onAffectWorld(boolean particles, CallbackInfo ci) {
 		BlockPos center = BlockPos.ofFloored(this.x, this.y, this.z);
 		if (SanctuaryBlock.isExplosionBlocked(this.world, center)) {
 			ci.cancel();
